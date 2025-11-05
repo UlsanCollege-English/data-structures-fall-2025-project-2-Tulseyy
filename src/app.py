@@ -13,8 +13,19 @@ Commands:
 """
 
 import sys
-from src.trie import Trie
-from src.io_utils import load_csv, save_csv
+from pathlib import Path
+
+# When run as a script (python src/app.py), sys.path[0] is the `src/` directory
+# so imports like `from src.trie import ...` will fail. Prefer local imports
+# and fall back to package-style imports to support both execution modes.
+try:
+    # Running as: python src/app.py
+    from trie import Trie
+    from io_utils import load_csv, save_csv
+except Exception:
+    # Running as: python -m src.app (or imported as package)
+    from src.trie import Trie
+    from src.io_utils import load_csv, save_csv
 
 PROMPT = ""  # keep outputs machine-friendly (no prompt)
 
